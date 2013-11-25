@@ -1,0 +1,6 @@
+/.idea/*
+node_modules/
+JavaWorkers/.idea/*
+JavaWorkers/target/*
+reconect_demo/node_modules/*
+JavaWorkers/JavaWorkers.iml

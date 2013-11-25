@@ -1,0 +1,34 @@
+<select data-bind="options : categories, optionsValue : 'id', optionsText : 'title', value : selectedCategoryId"></select>
+
+<a href="" class="btn" data-bind="click : get">GET</a>
+
+
+<table class="table">
+              <thead>
+                <tr>
+                	<!-- ko foreach : field -->
+                  <th data-bind="text : field"></th>
+                  	<!-- /ko -->
+                </tr>
+              </thead>
+              <tbody>
+              	<!-- ko foreach : items -->
+                <tr>
+                  	<!-- ko foreach : $parent.field -->
+                  		<th ><input class="input-mini" data-bind="value : $parent[field]" /></th>
+                  	<!-- /ko -->
+
+                  <td>
+                  <a class="btn" data-bind="click : $parent.update" >update</a>
+                  	<a class="btn" data-bind="click : $parent.remove" >delete</a>
+                  </td>
+                </tr>
+                <!-- /ko -->
+                <tr>
+                  <!-- ko foreach : field -->
+                  		<th ><input class="input-mini" data-bind="value : $parent.addForm[field]"/></th>
+                  	<!-- /ko -->
+                  <td><a data-bind="click : add" href="" class="btn">Add</a></td>
+                </tr>
+              </tbody>
+            </table>

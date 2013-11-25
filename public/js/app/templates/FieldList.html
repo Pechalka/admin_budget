@@ -1,0 +1,27 @@
+
+<h1 data-bind="text : title"></h1>
+
+
+<table class="table">
+              <thead>
+                <tr>
+                  <th>field</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              	<!-- ko foreach : fields -->
+                <tr>
+                  <td data-bind="text : field"></td>
+                  <td><a class="btn" data-bind="click : $parent.remove" >delete</a></td>
+                </tr>
+                <!-- /ko -->
+                <tr>
+                  <td><select data-bind="optionsCaption : 'please select', options : fieldsToAdd, optionsValue : 'Field', optionsText : 'Field', value : field"></select>	</td>
+                  <td>
+                  	<a data-bind="click : add" href="" class="btn">Add</a>
+                    <a data-bind="click : change_field" class="btn" href="" >change fields set</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>

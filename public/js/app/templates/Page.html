@@ -1,0 +1,28 @@
+
+<div>
+<select  data-bind="options : apps, optionsText : 'title', optionsValue : 'id', value : selectedBudgetListId">
+	
+</select>
+  <a href="#/test" class="btn pull-right">test</a>
+</div>
+
+<table class="table">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              	<!-- ko foreach : categories -->
+                <tr>
+                  <td><a data-bind="text : title, attr : { href : '#/app/' + id }"></a></td>
+                  <td><a class="btn" data-bind="click : $parent.remove" >delete</a></td>
+                </tr>
+                <!-- /ko -->
+                <tr>
+                  <td><input data-bind="value : categoryTitle" type="text"/>	</td>
+                  <td><a data-bind="click : add" href="" class="btn">Add</a></td>
+                </tr>
+              </tbody>
+            </table>

@@ -1,0 +1,30 @@
+<div id="edit-form" class="modal hide fade" >
+
+  <div class="modal-body">
+<table class="table">
+              <thead>
+                <tr>
+                  <th>Avalibale field</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- ko foreach : fields -->
+                <tr>
+                  <td data-bind="text : Field"></td>
+                  <td><a class="btn" data-bind="click : $parent.remove" >delete</a></td>
+                </tr>
+                <!-- /ko -->
+                <tr>
+                  <td><input data-bind="value : field"/> </td>
+                  <td>
+                    <a data-bind="click : add" href="" class="btn">Add</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+  </div>
+  <div class="modal-footer">
+    <a  href="#" data-bind="click : close" class="btn btn-primary">close</a>
+  </div>
+</div>
