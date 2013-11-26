@@ -126,6 +126,7 @@ var makeREST = function(table){
 
                 app.post(url, function(req, res){
                     create(table)(req.body, function(e, obj){
+
                         res.json(obj);
                     })
                 })

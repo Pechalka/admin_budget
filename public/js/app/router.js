@@ -24,11 +24,7 @@ define([
         ) {
 
 var app = {
-        breadcrumb : ko.observableArray([
-                { name : 'Home', href : '#/app' },
-                { name : 'Stationnery', href : '#/app' },
-                { name : 'Invitation', href : '#/app' }
-            ]),
+        breadcrumb : ko.observableArray([]),
         popup : ko.observable(null),
         content : ko.observable(null)
     };

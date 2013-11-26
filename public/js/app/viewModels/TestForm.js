@@ -17,7 +17,7 @@ define([
 									fetch : {
 										source : '/api/app_category',
 										params : {
-											parentId : '!0'
+											parentId : '<>0'
 										}
 									}
 								});
@@ -66,6 +66,8 @@ define([
 
 		self.add = function(){
 			var data = ko.toJS(self.addForm);
+			data.category_id = self.selectedCategoryId();
+			
 			$.post('/api/budget_item', data, function(){
 				self.items.reload();
 			})
