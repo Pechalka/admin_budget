@@ -1,0 +1,21 @@
+<h1>Budgets</h1>
+
+<a data-bind="click : add" href="" class="btn pull-right">Add</a>
+<table class="table">
+  <thead>
+    <tr>
+      <th>title</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody data-bind="foreach : items">
+    <tr>
+      <td ><a data-bind="text : title, click : $parent.edit" ></a></td>
+      <td>
+
+        <a class="btn pull-right"  data-bind="click : $parent.remove" >delete</a>
+        <a class="btn pull-right" style="margin-right: 10px;" data-bind="click : $parent.edit_category" >edit category</a>
+      </td>
+    </tr>
+  </tbody>
+</table>

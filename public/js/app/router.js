@@ -7,6 +7,10 @@ define([
     , "app/viewModels/FieldsPopup"
     , "app/viewModels/FieldList"
     , "app/viewModels/TestForm"
+    , "app/CategoriesList/viewModel"
+    , "app/BudgetsList/viewModel"
+    , "app/EditBudget/viewModel"
+    , "app/CategoryDetals/viewModel"
     , "utils"
     , "REST"
     , "bootstrap"
@@ -21,15 +25,33 @@ define([
         , FieldsPopup
         , FieldList
         , TestForm
+        , CategoriesList
+        , BudgetsList
+        , EditBudget
+        , CategoryDetals
         ) {
 
 var app = {
+        page : ko.observable('categories'),
         breadcrumb : ko.observableArray([]),
         popup : ko.observable(null),
         content : ko.observable(null)
     };
 
+    bus.on('budget_start_edit', function(e, id){
+        if (id){
+            $.get('/api/app/' + id, function(model){
+                app.popup(new EditBudget(model))
+            })
+        } else {
+            app.popup(new EditBudget())
+        }
+        $('#popup').modal('show');    
+    })
 
+    bus.on('budget_complete_edit', function(){
+        app.content().reload();
+    })
 
 
     bus.on('fields_set', function(){
@@ -43,6 +65,23 @@ var app = {
     })
 
 
+    var buildBreadcrumb = function(id, cb){
+        cb = cb ||  function(){}
+
+        $.get('/api/category/' + id, function(category){
+            if (!category) cb();
+            else {
+                app.breadcrumb.unshift ({ name : category.title, href : '#/category/' + category.id })
+                if (category.parent_id == 0){
+                    cb();
+                }
+                else{
+                    buildBreadcrumb(category.parent_id, cb)
+                }
+            }
+        })
+    }
+
     return  Sammy(function(){
 
         this.get('#/test', function(){
@@ -51,6 +90,24 @@ var app = {
                 { name : 'Home', href : '#/app' },
                 { name : 'Test Form', href : '#/app' }
             ]);
+        })
+
+        this.get('#/category', function(){
+            app.content(new CategoriesList({ parent_id : 0 }));
+            app.page('categories')
+            app.breadcrumb([]);
+            buildBreadcrumb(0, function(){
+                app.breadcrumb.unshift({ name : 'categories', href : '#/category'});    
+            })
+        })
+
+        this.get('#/category/:parent_id', function(){
+            app.content(new CategoriesList({ parent_id : this.params["parent_id"] }));
+            app.page('categories');
+            app.breadcrumb([]);
+            buildBreadcrumb(this.params["parent_id"], function(){
+                app.breadcrumb.unshift({ name : 'categories', href : '#/category'});    
+            })
         })
 
         this.get('#/app', function(){
@@ -82,9 +139,28 @@ var app = {
             })
         })
 
+        this.get('#/budgets', function(){
+            app.content(new BudgetsList());
+            app.page('budgets')
+            app.breadcrumb([
+                { name : 'Budgets', href : '#' }
+            ]);
+        })
+
+
+        this.get('#/categorydetails/:id', function(){
+            app.content(new CategoryDetals({ parent_id : this.params["id"]}));
+            app.page('categories');
+            app.breadcrumb([]);
+            buildBreadcrumb(this.params["id"], function(){
+                app.breadcrumb.unshift({ name : 'categories', href : '#/category'});    
+                app.breadcrumb.push({ name : 'details', href : '#'})
+            })
+        })
+
 
         this.get('', function (req) {
-            window.location = '#/app';
+            window.location = '#/category';
         });
 
         this.bind('run', function(){

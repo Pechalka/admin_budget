@@ -52,7 +52,7 @@ var readAll = function(table) {
 		if (pagination)		
 				sql += ' LIMIT ' + (page-1)*perPage +  ', ' +  perPage ;
 
-		console.log(sql);		 
+	//	console.log(sql);		 
 		var result = {};
 		connection.query(sql, function(e, rows){
 			if (!pagination){
@@ -104,7 +104,9 @@ var remove = function(table){
 var update = function(table){
 	//todo return obj
 	return function(data, id, cb){
+
 		connection.query('UPDATE ' + table + ' SET ? WHERE id = ' + connection.escape(id), data, cb);		
+
 	}
 }
 

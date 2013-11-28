@@ -1,0 +1,39 @@
+<div class="row">
+<div class="span6">
+	<span>Template</span>
+	<select data-bind="options : templates, value : selectedTemplate"></select>
+	<a href="" class="btn  " data-bind="click : change_template, css : { disabled : status() == 'proccess' } ">change template</a>
+
+</div>
+<div data-bind="visible : status() == 'complete' " class="alert alert-success span3">
+  template change success
+</div>
+</div>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>title</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  	<!-- ko foreach : types -->
+    <tr>
+      <td ><a data-bind="text : title" ></a></td>
+      <td>
+
+        <a class="btn" data-bind="click : $parent.remove" >delete</a>
+      </td>
+    </tr>
+    <!-- /ko -->
+    <tr>
+      <td><input data-bind="value : title" type="text"/>	</td>
+      <td>
+
+      	<a data-bind="click : add" href="" class="btn">Add</a>
+      </td>
+    </tr>
+  </tbody>
+</table>

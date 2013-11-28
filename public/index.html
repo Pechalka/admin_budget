@@ -7,12 +7,25 @@
 </head>
 <body>
 
+<div id="popup" class="modal hide fade" >
 <!-- ko with : popup -->
 		<!-- ko template : { html : template } -->
 		<!-- /ko -->
 <!-- /ko -->
+</div>
 
 <div class="container" >
+
+<div class="navbar">
+  <div class="navbar-inner">
+    <a class="brand" href="#">YOR</a>
+    <ul class="nav">
+      <li data-bind="css : { active : page() == 'budgets'}"><a href="#/budgets">Budgets</a></li>
+      <li data-bind="css : { active : page() == 'categories'}"><a href="#/">Categories</a></li>
+    </ul>
+  </div>
+</div>
+
 <ul class="breadcrumb" data-bind="foreach : breadcrumb">
   	<li data-bind="if: (($index()+1) != $parent.breadcrumb().length)">
   		<a  data-bind="text : name, attr : { href : href } "></a> <span class="divider">/</span>

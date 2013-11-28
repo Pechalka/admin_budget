@@ -1,0 +1,32 @@
+
+<h1 data-bind="text : pageTitle" class="span4"></h1>
+
+<a data-bind="attr : { href : '#/categorydetails/' + parent_id() }" href="" class="btn">edit details</a>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>title</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  	<!-- ko foreach : items -->
+    <tr>
+      <td ><a data-bind="text : title, attr : { href : '#/category/' + id}" ></a></td>
+      <td>
+
+        <a class="btn" data-bind="click : $parent.remove" >delete</a>
+      </td>
+    </tr>
+    <!-- /ko -->
+    <tr>
+      <td><input data-bind="value : title" type="text"/>	</td>
+      <td>
+
+      	<a data-bind="click : add" href="" class="btn">Add</a>
+      </td>
+    </tr>
+  </tbody>
+</table>

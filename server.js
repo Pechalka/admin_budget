@@ -18,6 +18,10 @@ DAO('budget_fields').makeREST(app, '/api/budget_fields');
 DAO('app_category').makeREST(app, '/api/app_category');
 DAO('budget_item').makeREST(app, '/api/budget_item');
 DAO('app').makeREST(app, '/api/app');
+DAO('category_new').makeREST(app, '/api/category');
+DAO('category_template').makeREST(app, '/api/category_template');
+DAO('expenditure_type_new').makeREST(app, '/api/expenditure_type_new');
+
 
 
 app.get('/api/fields', function(req, res){

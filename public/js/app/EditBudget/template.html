@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 data-bind="text : popupTitle"></h3>
+  </div>
+
+  <div class="modal-body">
+  	<div class="row">
+  		<div class="span3">
+		  	<label>Price</label>
+		  	<input data-bind="value : price" type="text"/>
+			<div>
+		  		<label>Description</label>
+		 	 	<textarea data-bind="value : description" style="resize: none"   rows="4"></textarea>
+		  	</div>	 
+		  	<label>main image</label>
+		  	<input data-bind="value : imgUrl" type="text"/>
+
+		  	<label>image1</label>
+		  	<input data-bind="value : img1url" type="text"/>
+
+			<label>video Url</label>
+		  	<input data-bind="value : videoUrl" type="text"/>
+		  	
+  		</div>
+  		<div class="span3">
+		  	<label>Title</label>
+		  	<input data-bind="value : title" type="text"/>
+		  	<div>
+		  		<label>Benefits</label>
+		 	 	<textarea data-bind="value : benefits" style="resize: none"  rows="4"></textarea>
+		  	</div>  		
+		  	<label>image2</label>
+		  	<input data-bind="value : img2url" type="text"/>
+
+		  	<label>image3</label>
+		  	<input data-bind="value : img3url" type="text"/>
+
+  		</div>
+  	</div>
+  	
+  	
+  </div>
+  <div class="modal-footer">
+    <a  href="#" data-bind="click : close" class="btn">close</a>
+    <a href="#" data-bind="click : save" class="btn btn-primary">Save</a>
+  </div>
