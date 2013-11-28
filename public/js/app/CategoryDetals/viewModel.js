@@ -43,8 +43,10 @@ define([
 		}
 
 		self.title = ko.observable();
+		self.type = ko.observable(0);// ?????????WTF
+
 		self.add = function(){
-			$.post('/api/expenditure_type_new', { title : self.title, category_id : model.parent_id }, function(){
+			$.post('/api/expenditure_type_new', { type : self.type(),  title : self.title, category_id : model.parent_id }, function(){
 				self.types.reload();
 			})
 		}

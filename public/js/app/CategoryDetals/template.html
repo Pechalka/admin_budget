@@ -29,7 +29,10 @@
     </tr>
     <!-- /ko -->
     <tr>
-      <td><input data-bind="value : title" type="text"/>	</td>
+      <td>
+      	<input data-bind="value : title" type="text"/>	
+      	<select data-bind="options : [0, 1], value : type"></select>
+      </td>
       <td>
 
       	<a data-bind="click : add" href="" class="btn">Add</a>
