@@ -28,19 +28,14 @@ define([
 		}
 
 		self.remove = function(item){
-			$.get('/api/category', { title : item.title }, function(c){
-				$.delete('/api/category/' + c[0].id, function(){
+			//$.get('/api/category', { title : item.title }, function(c){
+			//	$.delete('/api/category/' + c[0].id, function(){
 					$.delete('/api/app/' + item.id, self.items.reload)
-				})	
-			})
+			//	})	
+			//})
 			
 		}
 		
-		self.edit_category = function(item){
-			$.get('/api/category', { title : item.title }, function(c){
-				window.location = '#/category/' + c[0].id;
-			});
-		}
 
 		self.edit = function(item){
 			bus.trigger('budget_start_edit', item.id);	
