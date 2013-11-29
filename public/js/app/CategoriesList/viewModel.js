@@ -53,6 +53,7 @@ define([
 		self.add = function(){
 			$.post('/api/category', { title : self.title(), parent_id : self.parent_id() }, function(){
 				self.items.reload();
+				self.title('')
 			})
 		}
 

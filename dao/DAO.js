@@ -90,7 +90,10 @@ var read = function(table) {
 var create = function(table){ 
 	return function(data, cb) {
 		//todo return obj
-		var q = connection.query('INSERT INTO ' + table + ' SET ?', data, cb);
+		var q = connection.query('INSERT INTO ' + table + ' SET ?', data, function(err, result){
+			data.id = result.insertId;
+			cb(err, data);
+		});
 	}
 }
 
@@ -128,7 +131,6 @@ var makeREST = function(table){
 
                 app.post(url, function(req, res){
                     create(table)(req.body, function(e, obj){
-
                         res.json(obj);
                     })
                 })

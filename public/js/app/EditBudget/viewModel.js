@@ -49,12 +49,14 @@ define([
                     img1url : self.img1url(),
                     img2url : self.img2url(),
                     img3url : self.img3url(),
-                    videoUrl : self.videoUrl()
+                    videoUrl : self.videoUrl(),
+                    appOfTheWeek : 0
                 };
                 if (model.id){
                     $.put('/api/app/' + model.id, data, close)
                 } else {
-                    $.post('/api/category', { title : data.title, parent_id : -1 }, function(){
+                    $.post('/api/category', { title : data.title, parent_id : -1 }, function(category){
+                        data.categoryId = category.id;
                         $.post('/api/app', data, close)
                     })
                 }
