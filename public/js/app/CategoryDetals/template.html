@@ -1,8 +1,8 @@
 <div class="row">
 <div class="span6">
-	<span>Template</span>
-	<select data-bind="options : templates, value : selectedTemplate"></select>
-	<a href="" class="btn  " data-bind="click : change_template, css : { disabled : status() == 'proccess' } ">change template</a>
+ <span>Template</span>
+ <select data-bind="options : templates, value : selectedTemplate"></select>
+ <a href="" class="btn  " data-bind="click : change_template, css : { disabled : status() == 'proccess' } ">change template</a>
 
 </div>
 <div data-bind="visible : status() == 'complete' " class="alert alert-success span3">
@@ -19,7 +19,7 @@
     </tr>
   </thead>
   <tbody>
-  	<!-- ko foreach : types -->
+   <!-- ko foreach : types -->
     <tr>
       <td data-bind="text : title"></td>
       <td>
@@ -30,12 +30,13 @@
     <!-- /ko -->
     <tr>
       <td>
-      	<input data-bind="value : title" type="text"/>	
-      	<select data-bind="options : [0, 1], value : type"></select>
+       <input data-bind="value : title" type="text"/> 
+       <select data-bind="options : [0, 1], value : type"></select>
+  <select data-bind="options : apps, value : appId, optionsText : 'title', optionsValue : 'id'"></select>
       </td>
       <td>
 
-      	<a data-bind="click : add" href="" class="btn">Add</a>
+       <a data-bind="click : add" href="" class="btn">Add</a>
       </td>
     </tr>
   </tbody>
