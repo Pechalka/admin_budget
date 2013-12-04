@@ -90,7 +90,12 @@ var read = function(table) {
 var create = function(table){ 
 	return function(data, cb) {
 		//todo return obj
+
 		var q = connection.query('INSERT INTO ' + table + ' SET ?', data, function(err, result){
+			if (err){
+				console.log(err);
+				cb(err, null);
+			}
 			data.id = result.insertId;
 			cb(err, data);
 		});
@@ -100,6 +105,7 @@ var create = function(table){
 var remove = function(table){
 	return function(id, cb){
 		var sql = 'DELETE from ' + table + ' where id = ' + connection.escape(id);
+		console.log(sql);
 		connection.query(sql, cb);
 	}
 }

@@ -11,15 +11,14 @@ define([
 
 	return function(model){
 		var self = this;
-		self.templates = ['Table', 'TableJoinWith', 'TableAnual', 'TableAnualHolidays'];
+		self.templates = ['Table', 'TableJoinWith', 'TableAnual', 'TableAnualHolidays', 'Table5field', 'Table8field', 'Table2field'];
 		self.selectedTemplate = ko.observable('Table');
 		self.template_id = ko.observable();
+		self.category = null;
 
-		$.get('/api/category_template', { category_new_id : model.parent_id }, function(c){
-			if (c.length){
-				self.selectedTemplate(c[0].title);
-				self.template_id(c[0].id)				
-			}
+		$.get('/api/category/' + model.parent_id, function(c){
+			self.category = c;
+			self.selectedTemplate(c.template);			
 		});
 		
 		self.status = ko.observable('init');
@@ -34,12 +33,11 @@ define([
 		self.change_template = function(){
 			if (self.status() == 'proccess') return;
 
-			var data = { title : self.selectedTemplate()};
 			self.status('proccess');
-			if (self.template_id())
-				$.put('/api/category_template/' + self.template_id(), data, complete)
-			else
-				$.post('/api/category_template', data, complete);
+			
+			self.category.template = self.selectedTemplate();
+
+			$.put('/api/category/' + model.parent_id, self.category, complete);
 		}
 
 		self.title = ko.observable();
@@ -48,6 +46,7 @@ define([
 		self.add = function(){
 			$.post('/api/expenditure_type_new', { type : self.type(),  title : self.title, category_id : model.parent_id }, function(){
 				self.types.reload();
+				self.title('')
 			})
 		}
 
@@ -67,49 +66,6 @@ define([
 							}
 						});
 		self.types.reload();			
-
-		// self.parent_id = ko.observable(model.parent_id);
-		// self.items = ko.observableArray([])
-		// 				.extend({
-		// 					fetch : {
-		// 						source : '/api/category',
-		// 						params : {
-		// 							parent_id : self.parent_id
-		// 						}
-		// 					}
-		// 				})
-
-		// self.items.reload();
-
-		// self.pageTitle = ko.observable('Categories')
-		// 					.extend({
-		// 						fetch : {
-		// 							source : '/api/category/' + model.parent_id,
-		// 							proccessReponse : function(category){
-		// 								return 'Categories ' + category.title;
-		// 							}
-		// 						}
-		// 					})
-		// self.pageTitle.reload();
-
-
-		// self.title = ko.observable();
-		// self.remove = function(item){
-		// 	$.delete('/api/category/' + item.id, function(){
-		// 		self.items.reload();	
-		// 	})
-		// }
-		
-
-		// self.selectCategory = function(c){
-		// 	self.parent_id(c.id);
-		// }
-
-		// self.add = function(){
-		// 	$.post('/api/category', { title : self.title(), parent_id : self.parent_id() }, function(){
-		// 		self.items.reload();
-		// 	})
-		// }
 
 		self.template = template;
 	}
