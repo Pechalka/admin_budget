@@ -20,6 +20,7 @@ DAO('budget_item').makeREST(app, '/api/budget_item');
 DAO('app').makeREST(app, '/api/app');
 DAO('category_new').makeREST(app, '/api/category');
 DAO('expenditure_type_new').makeREST(app, '/api/expenditure_type_new');
+DAO('template_fields').makeREST(app, '/api/template_fields');
 
 
 

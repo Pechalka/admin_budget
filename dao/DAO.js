@@ -114,8 +114,8 @@ var update = function(table){
 	//todo return obj
 	return function(data, id, cb){
 
-		connection.query('UPDATE ' + table + ' SET ? WHERE id = ' + connection.escape(id), data, cb);		
-
+		var query = connection.query('UPDATE ' + table + ' SET ? WHERE id = ' + connection.escape(id), data, cb);		
+		console.log(query.sql, data);
 	}
 }
 

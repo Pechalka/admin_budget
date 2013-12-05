@@ -9,7 +9,13 @@
   template change success
 </div>
 </div>
-
+<div class="row">
+  <div class="span8 well">
+    <!-- ko foreach : fields -->
+    <label class="checkbox"><input data-bind="checked : visable, enable : canEdit" type="checkbox"/> <!-- ko text : label --><!-- /ko --></label>
+    <!-- /ko -->
+  </div>
+</div>
 
 <table class="table">
   <thead>
