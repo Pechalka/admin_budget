@@ -8,35 +8,54 @@ define([
   , bus
   ){
 
-    var initField = function(self, fields){
-        for(var field in fields){
-           if (['id', 'app_id', 'title', 'can_delete', 'category_id', 'total_cost'].indexOf(field)!=-1) continue;
+    // var initField = function(self, fields){
+    //     for(var field in fields){
+    //        if (['id', 'app_id', 'title', 'can_delete', 'category_id', 'total_cost'].indexOf(field)!=-1) continue;
 
-           self.fields.push({ label : field, visable : ko.observable(fields[field]), canEdit : true })
-        }
+    //        self.fields.push({ label : field, visable : ko.observable(fields[field]), canEdit : true })
+    //     }
+
+    //     self.sync = ko.computed(function(){
+    //         var data = ko.toJS(self.fields);
+
+    //         if (!self.sync) return;
+
+ 
+    //         console.log('update', data);
+
+    //         ko.utils.arrayForEach(data, function(item){
+    //             if (['id', 'title', 'app_id', 'can_delete', 'category_id', 'total_cost'].indexOf(item.label)!=-1) return;
+                
+    //             self.templateFieldsItem[item.label] = item.visable ? 1 : 0;    
+    //         });
+    
+
+    //         $.put('/api/template_fields/' + self.templateFieldsItem.id, self.templateFieldsItem , function(){
+                
+    //         });
+
+    //     })
+    // }
+
+
+    var ItemTemplate = function(data){
+        var self = this;
+        self.id = data.id;
+        self.field = data.field;
+        self.visible = ko.observable(data.visible);
+        self.canEdit = !data.disable;
+        self.title = ko.observable(data.title);
+
 
         self.sync = ko.computed(function(){
-            var data = ko.toJS(self.fields);
+            data.title = self.title();
+            data.visible = self.visible() ? 1 : 0;
 
             if (!self.sync) return;
 
- 
-            console.log('update', data);
-
-            ko.utils.arrayForEach(data, function(item){
-                if (['id', 'title', 'app_id', 'can_delete', 'category_id', 'total_cost'].indexOf(item.label)!=-1) return;
-                
-                self.templateFieldsItem[item.label] = item.visable ? 1 : 0;    
-            });
-    
-
-            $.put('/api/template_fields/' + self.templateFieldsItem.id, self.templateFieldsItem , function(){
-                
-            });
-
+            $.put('/api/template_fields/' + self.id, data);
         })
     }
-
 
  return function(model){
   var self = this;
@@ -47,29 +66,55 @@ define([
     self.appId = ko.observable();
   
     self.fields = ko.observableArray([ 
-        { label : 'title', visable : ko.observable(true), canEdit : false }, 
-        { label : 'total_cost', visable : ko.observable(true), canEdit : false }     
+        new ItemTemplate({ field : 'title', visible : true, disable : true }), 
+        new ItemTemplate({ field : 'total_cost', visible : true, disable : true })     
     ]);
 
     
 
-  self.templateFieldsItem = ko.observable();
+
+    var defaultFields = {
+        'deposit_amount' : 'Deposit Amount', 
+        'deposit_per_date' : 'Deposit Per Date', 
+        'final_payment' : 'Final Payment',
+        'number_required' : 'Number Required',
+        'payment_date' : 'Payment Date',
+        'price_per_item' : 'Price Per Item',
+        'deposit_pay_date' : 'Deposit Pay Date',
+        'final_payment_date' : 'Final Payment Date'
+    };
+
+    $.get('/api/template_fields', 
+        { category_id : model.parent_id, app_id : 26 }, 
+        function(fields){
+            var createFiled = [];
+
+            for(var field in defaultFields){
+                var f = ko.utils.arrayFirst(fields, function(item){ return item.field == field });
+                if (!f){
+                    var data = {
+                        category_id : model.parent_id,
+                        app_id : 26,
+                        field : field,
+                        title : defaultFields[field]
+                    };
+                    createFiled.push($.post('/api/template_fields', data));
+                }
+            }
 
 
+            $.when.apply(createFiled).then(function(){
+                $.get('/api/template_fields', 
+                    { category_id : model.parent_id, app_id : 26 }, 
+                    function(items){
+                        ko.utils.arrayForEach(items, function(item){
+                            self.fields.push(new ItemTemplate(item))
+                        })
+                    });
 
-  $.get('/api/template_fields', { category_id : model.parent_id, app_id : 26 }, function(details){
-    if (details.length == 0){
-      $.post('/api/template_fields', { category_id : model.parent_id, app_id : 26 }, function(d){
-        self.templateFieldsItem = d;
-        initField(self, d);
-      })
-    } else {
-      $.get('/api/template_fields/' + details[0].id, function(d){
-        self.templateFieldsItem = d;
-        initField(self, d);
-      });     
-    }
-  });
+            });     
+        }
+    );
 
   $.get('/api/category/' + model.parent_id, function(c){
     self.category = c;

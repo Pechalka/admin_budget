@@ -12,7 +12,13 @@
 <div class="row">
   <div class="span8 well">
     <!-- ko foreach : fields -->
-    <label class="checkbox"><input data-bind="checked : visable, enable : canEdit" type="checkbox"/> <!-- ko text : label --><!-- /ko --></label>
+    <div>
+    <label style="margin-bottom: 10px;" class="checkbox span3"><input data-bind="checked : visible, enable : canEdit" type="checkbox"/> <!-- ko text : field --><!-- /ko --></label>
+      <!-- ko if: canEdit-->
+      <input data-bind="value : title, visible : visible" />
+      <!-- /ko -->
+      <div class="clearfix"></div>
+    </div>
     <!-- /ko -->
   </div>
 </div>
