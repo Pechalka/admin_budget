@@ -69,10 +69,7 @@ define([
         new ItemTemplate({ field : 'title', visible : true, disable : true }), 
         new ItemTemplate({ field : 'total_cost', visible : true, disable : true })     
     ]);
-
-    
-
-
+  
     var defaultFields = {
         'deposit_amount' : 'Deposit Amount', 
         'deposit_per_date' : 'Deposit Per Date', 
