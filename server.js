@@ -14,14 +14,32 @@ app.use(express.static(path.join(__dirname, 'public')));
 var DAO = require('./dao/DAO').DAO;
 var connection = require('./dao/DAO').connection;
 
+
+
+app.delete('/api/category/:id', function(req, res){
+	var categoryId = req.params["id"];
+	var sql = 'delete from user_category_status_new where category_id=' + connection.escape(categoryId);
+	console.log(sql);
+	connection.query(sql, function(sql, rows){
+		DAO('category_new').remove(categoryId, function(){	
+			res.json({ success : true });
+		})
+	})
+})
+
+
 DAO('budget_fields').makeREST(app, '/api/budget_fields');
 DAO('app_category').makeREST(app, '/api/app_category');
 DAO('budget_item').makeREST(app, '/api/budget_item');
 DAO('app').makeREST(app, '/api/app');
+
 DAO('category_new').makeREST(app, '/api/category');
+
 DAO('expenditure_type_new').makeREST(app, '/api/expenditure_type_new');
 DAO('template_fields').makeREST(app, '/api/template_fields');
 DAO('user').makeREST(app, '/api/users');
+
+
 
 
 

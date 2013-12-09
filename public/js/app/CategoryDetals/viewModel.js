@@ -43,7 +43,7 @@ define([
   
     var defaultFields = {
         'deposit_amount' : 'Deposit Amount', 
-        'deposit_per_date' : 'Deposit Per Date', 
+        'deposit_per_date' : 'Deposit Date', 
         'final_payment' : 'Final Payment',
         'number_required' : 'Number Required',
         'payment_date' : 'Payment Date',
