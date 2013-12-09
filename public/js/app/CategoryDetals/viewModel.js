@@ -8,35 +8,6 @@ define([
   , bus
   ){
 
-    // var initField = function(self, fields){
-    //     for(var field in fields){
-    //        if (['id', 'app_id', 'title', 'can_delete', 'category_id', 'total_cost'].indexOf(field)!=-1) continue;
-
-    //        self.fields.push({ label : field, visable : ko.observable(fields[field]), canEdit : true })
-    //     }
-
-    //     self.sync = ko.computed(function(){
-    //         var data = ko.toJS(self.fields);
-
-    //         if (!self.sync) return;
-
- 
-    //         console.log('update', data);
-
-    //         ko.utils.arrayForEach(data, function(item){
-    //             if (['id', 'title', 'app_id', 'can_delete', 'category_id', 'total_cost'].indexOf(item.label)!=-1) return;
-                
-    //             self.templateFieldsItem[item.label] = item.visable ? 1 : 0;    
-    //         });
-    
-
-    //         $.put('/api/template_fields/' + self.templateFieldsItem.id, self.templateFieldsItem , function(){
-                
-    //         });
-
-    //     })
-    // }
-
 
     var ItemTemplate = function(data){
         var self = this;
@@ -78,7 +49,12 @@ define([
         'payment_date' : 'Payment Date',
         'price_per_item' : 'Price Per Item',
         'deposit_pay_date' : 'Deposit Pay Date',
-        'final_payment_date' : 'Final Payment Date'
+        'final_payment_date' : 'Final Payment Date',
+        
+
+        'other_expenditure' : '',
+        'show_date' : '',
+        'show_total_row' : ''
     };
 
     $.get('/api/template_fields', 
