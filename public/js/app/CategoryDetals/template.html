@@ -10,17 +10,36 @@
 </div>
 </div>
 <div class="row">
-  <div class="span8 well">
+  <div class="span6 well">
     <!-- ko foreach : fields -->
     <div>
     <label style="margin-bottom: 10px;" class="checkbox span3"><input data-bind="checked : visible, enable : canEdit" type="checkbox"/> <!-- ko text : field --><!-- /ko --></label>
       <!-- ko if: canEdit-->
-      <input data-bind="value : title, visible : visible" />
+      <input class="input-medium" data-bind="value : title, visible : visible" />
       <!-- /ko -->
       <div class="clearfix"></div>
     </div>
     <!-- /ko -->
   </div>
+    <div class="well span3">
+    <p> 
+        <input data-bind="value : title" type="text"/>
+    </p> 
+    <p> 
+        <select data-bind="options : [0 , 1], value : type"></select>
+    </p>
+    <p> 
+
+        <select data-bind="options : block_type_list, value : block_type, optionsText : 'title', optionsValue : 'value'"></select>
+    </p>
+    <p>     
+        <select data-bind="options : apps, value : appId, optionsText : 'title', optionsValue : 'id'"></select>
+    </p>
+    <p>     
+        <a data-bind="click : add" href="" class="btn">Add</a>
+    </p>
+
+</div>
 </div>
 
 <table class="table">
@@ -40,16 +59,26 @@
       </td>
     </tr>
     <!-- /ko -->
-    <tr>
-      <td>
-       <input data-bind="value : title" type="text"/> 
-       <select data-bind="options : [0, 1], value : type"></select>
-  <select data-bind="options : apps, value : appId, optionsText : 'title', optionsValue : 'id'"></select>
-      </td>
-      <td>
-
-       <a data-bind="click : add" href="" class="btn">Add</a>
-      </td>
-    </tr>
   </tbody>
 </table>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>title</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+   <!-- ko foreach : otherTypes -->
+    <tr>
+      <td data-bind="text : title"></td>
+      <td>
+
+        <a class="btn" data-bind="click : $parent.remove" >delete</a>
+      </td>
+    </tr>
+    <!-- /ko -->
+  </tbody>
+</table>
+

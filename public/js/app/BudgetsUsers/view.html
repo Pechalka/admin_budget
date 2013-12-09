@@ -1,0 +1,30 @@
+
+<div class="row">
+	<div class="span3">
+		<select data-bind="options : users, optionsText : 'first_name', optionsValue : 'id', value : userId "></select>	
+
+	</div>
+	<div class="span3">
+		<select data-bind="options : budgets, optionsText : 'title', optionsValue : 'id', value : budgetId"></select>		
+	</div>
+	
+</div>
+
+<table>
+	<thead>
+		<tr>
+			<th>app</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody data-bind="foreach : UserBudgets">
+		<tr>
+			<td data-bind="text : title"></td>
+			<td>
+				<a href class="btn" data-bind="click : $parent.deleteItem">delete</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+

@@ -129,30 +129,58 @@ define([
   self.title = ko.observable();
   self.type = ko.observable(0);// ?????????WTF
 
-  self.add = function(){
-   $.post('/api/expenditure_type_new', { app_id : self.appId(), type : self.type(),  title : self.title, category_id : model.parent_id }, function(){
-    self.types.reload();
-    self.title('')
-   })
-  }
+    self.add = function(){
+        var data = { 
+            app_id : self.appId(), 
+            type : self.type(),  
+            title : self.title, 
+            category_id : model.parent_id,
+            block_type : self.block_type()
+        };
+        $.post('/api/expenditure_type_new', data, function(){
+            self.types.reload();
+            self.otherTypes.reload();
+            self.title('')
+        })
+    }
 
-  self.remove = function(item){
-   $.delete('/api/expenditure_type_new/' + item.id, function(){
-    self.types.reload();  
-   })
-  }
-
-  self.types = ko.observableArray([])
-      .extend({
-       fetch : {
-        source : '/api/expenditure_type_new',
-        params : {
-         category_id : model.parent_id
+        self.remove = function(item){
+            $.delete('/api/expenditure_type_new/' + item.id, function(){
+                self.types.reload();  
+                self.otherTypes.reload();
+            })
         }
-       }
-      });
-  self.types.reload();   
 
-  self.template = template;
- }
+        self.block_type_list = [
+            { title : 'default', value :  1}, 
+            { title : 'other', value :  2}
+        ];
+        self.block_type = ko.observable(1);
+
+        self.types = ko.observableArray([])
+                .extend({
+                    fetch : {
+                        source : '/api/expenditure_type_new',
+                        params : {
+                            block_type : 1,
+                            category_id : model.parent_id
+                        }
+                    }
+                });
+        self.types.reload();   
+
+        self.otherTypes = ko.observableArray([])
+                .extend({
+                    fetch : {
+                        source : '/api/expenditure_type_new',
+                        params : {
+                            block_type : 2,
+                            category_id : model.parent_id
+                        }
+                    }
+                });
+        self.otherTypes.reload();
+
+        self.template = template;
+    }
 });

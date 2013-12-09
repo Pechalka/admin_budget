@@ -11,6 +11,7 @@ define([
     , "app/BudgetsList/viewModel"
     , "app/EditBudget/viewModel"
     , "app/CategoryDetals/viewModel"
+    , "app/BudgetsUsers/viewModel"
     , "utils"
     , "REST"
     , "bootstrap"
@@ -29,6 +30,7 @@ define([
         , BudgetsList
         , EditBudget
         , CategoryDetals
+        , BudgetsUsers
         ) {
 
 var app = {
@@ -147,6 +149,13 @@ var app = {
             ]);
         })
 
+        this.get('#/budget_users', function(){
+            app.content(new BudgetsUsers());
+            app.page('budget_users')
+            app.breadcrumb([
+                { name : 'Budgets and Users', href : '#' }
+            ]);
+        });
 
         this.get('#/categorydetails/:id', function(){
             app.content(new CategoryDetals({ parent_id : this.params["id"]}));

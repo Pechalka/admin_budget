@@ -31,6 +31,7 @@ define(["knockout","jquery"], function(ko, $){
 
 
      ko.extenders.fetch = function(target, opt){
+
         var source = opt.source;
         
         var reload = function(){};
@@ -70,11 +71,9 @@ define(["knockout","jquery"], function(ko, $){
           target(data);
         }
         target.reload = reload;
-        
         if (opt.params){
           var cc = ko.computed(function(){
             _data = ko.toJS(opt.params);
-           
             if (!cc) return;
 
             reload(_data);
