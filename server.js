@@ -56,14 +56,69 @@ app.delete('/api/userbudgets', function(req, res){
 	var budgetId = req.query["budgetId"] ;
 	var userId = req.query["userId"]; 
 
-	var sql = 'delete from app_payment where user_id=' + userId +' and app_id=' + budgetId;
-	console.log(sql);
-	connection.query(sql , function(e, rows){
-		connection.query('delete from test where user_id=' + userId +' and app_id=' + budgetId , function(e, rows){
-			res.json({ success : true })
+	connection.query("select * from app where id=" + connection.escape(budgetId), function(e, rows){
+		var category_id = rows[0]["categoryId"];
+		delete_user_status(category_id, userId, function(){
+			var sql = 'delete from app_payment where user_id=' + userId +' and app_id=' + budgetId;
+			connection.query(sql , function(e, rows){
+				connection.query('delete from test where user_id=' + userId +' and app_id=' + budgetId , function(e, rows){
+					res.json({ success : true })
+				});
+			});
 		});
 	})
 });
+
+var delete_user_status = function(parent_category_id, user_id, cb){
+		var get_parent_sql = ' select ' 
+		+'   t1.id , t2.id, t3.id ' 
+		+' from ' 
+		+'    category_new t1 ' 
+		+'    left join category_new t2 on t1.id = t2.parent_id ' 
+		+'    left join category_new t3 on t2.id = t3.parent_id ' 
+		+'where ' 
+	    +' t1.id = ' + connection.escape(parent_category_id) ;
+	connection.queryCol(get_parent_sql, [], function(err, result) {
+		var arr_sql = '(' + result.join(',') + ')';
+		var sql = ' delete from user_category_status_new where category_id in ' + arr_sql + ' and user_id = ' + connection.escape(user_id);
+		console.log(sql);
+		connection.query(sql, cb);
+	});
+}
+
+app.get('/v/:id/:userId', function(req, res){
+
+// 	var get_parent_sql = 'with name_tree as ('
+//    +' select id, parent_id, name'
+//    +' from category_new'
+//    +' where id = ' + req.params["id"] + ' '
+//    +' union all '
+//    +' select c.id, c.parent_id, c.name '
+//    +' from category_new c '
+//    +'   join name_tree p on p.id = c.parent_id '  
+// +' )  '
+// +' select * '
+// +' from name_tree';
+
+	var user_id = req.params["userId"] ;
+
+	var get_parent_sql = ' select ' 
++'   t1.id , t2.id, t3.id ' //t1.title, t2.title, t3.title, t4.title, t5.title
++' from ' 
++'    category_new t1 ' 
++'    left join category_new t2 on t1.id = t2.parent_id ' 
++'    left join category_new t3 on t2.id = t3.parent_id ' 
++'where ' 
+   +' t1.id = ' + req.params["id"] ;
+	connection.queryCol(get_parent_sql, [], function(err, result) {
+		var arr_sql = '(' + result.join(',') + ')';
+		var sql = ' select * from user_category_status_new where category_id in ' + arr_sql + ' and user_id = ' + connection.escape(user_id);
+		console.log(sql);
+		connection.query(sql, function(e, r){
+			res.json(r);
+		})
+	});
+})
 
 app.get('/api/fields', function(req, res){
 	connection.query('describe budget_item', function(e, rows){
